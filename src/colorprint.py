@@ -6,26 +6,14 @@ __author__ = 'donkeyxote'
 module for colorful output
 '''
 
-
-textcolors={'gray':'\033[0;30m',\
-        'red':'\033[0;31m',\
-        'green':'\033[0;32m',\
-        'yellow':'\033[0;33m',\
-        'blue':'\033[0;34m',\
-        'magenta':'\033[0;35m',\
-        'cyan':'\033[0;36m',\
-        'white':'\033[0;37m',\
-        }
-
-
-boldcolors={'gray':'\033[1;30m',\
-        'red':'\033[1;31m',\
-        'green':'\033[1;32m',\
-        'yellow':'\033[1;33m',\
-        'blue':'\033[1;34m',\
-        'magenta':'\033[1;35m',\
-        'cyan':'\033[1;36m',\
-        'white':'\033[1;37m',\
+colors={'gray':('\033[',';30m'),\
+        'red':('\033[',';31m'),\
+        'green':('\033[',';32m'),\
+        'yellow':('\033[',';33m'),\
+        'blue':('\033[',';34m'),\
+        'magenta':('\033[',';35m'),\
+        'cyan':('\033[',';36m'),\
+        'white':('\033[',';37m'),\
         }
 
 
@@ -33,21 +21,20 @@ def colorprint(*args, **kwargs ):
 
     prefix=None
     suffix=None
-    colors=textcolors
-
+    bold='0'
 
     if kwargs.__contains__('bold'):
         if kwargs['bold'] == True:
-            colors=boldcolors
+            bold='1';
         kwargs.pop('bold','')
 
 
     if kwargs.__contains__('col'):
         if colors.__contains__(kwargs['col']):
-            prefix=colors[kwargs.pop('col','')]
-            suffix='\033[0;m'
-        else:
-            kwargs.pop('col','')
+            color=colors[kwargs['col']]
+            prefix=color[0]+bold+color[1]
+            suffix='\033['+bold+';m'
+        kwargs.pop('col','')
 
 
     if (prefix != None) & (suffix != None):
@@ -61,8 +48,8 @@ def colorprint(*args, **kwargs ):
 
 if __name__=='__main__':
     
-    for color in textcolors:
-        colorprint(color, col=color)
-        
-    for color in boldcolors:
-        colorprint(color, col=color, bold=True)
+    for color in colors:
+        colorprint (color, col=color)
+    for color in colors:
+        colorprint (color, col=color, bold=True)
+
